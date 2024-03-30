@@ -33,3 +33,24 @@ A heart model simulation from mlab-upenn research group
 The components of the cardiac action potential cycle, including the periods of rest, conduction, ERP (Effective Refractory Period), RRP (Relative Refractory Period), and the rest (diastolic) period.
 
 <img src="assets/img/basic.png" width="400" style="margin-right: 10px;margin-left: 10px;">
+
+
+
+
+## Building instructions
+### Requirements
+- GCC
+- CMake
+
+### Bash commands
+from the root directory of the project, run the following commands:
+```bash
+mkdir build
+cmake -Bbuild -G "MinGW Makefiles"
+cmake --build build --config Debug --target all -j 10 --
+build\MyHeart.exe                                       
+```
+
+
+
+

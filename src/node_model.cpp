@@ -1,35 +1,63 @@
-#ifndef NODE_MODEL_CPP
-#define NODE_MODEL_CPP
-
-#include "../inc/node_model.hpp"
+#ifndef _NODE_MODEL_CPP
+#define _NODE_MODEL_CPP
 #include <iostream>
-#include <string>
+#include "../inc/node_model.hpp"
+
 
 // Constructor
-Node::Node(const std::string &node_name, const std::vector<int> &node_integer_parameters, 
-        const std::vector<path_terminal_pair> &path_terminal_pair, const node_position &node_pos)
+Node::Node(
+    const std::string &node_name_, 
+    const std::vector<int> &node_integer_parameters, 
+    const std::vector<path_terminal_pair> &path_terminal_pair, 
+    const node_position &node_pos
+    )
 :
-    node_para{
-        node_name, 
-        (node_state_index_enum) node_integer_parameters[0],   // 1 for rest, 2 for ERP, 3 for RRP
-        node_integer_parameters[1],                           // TERP_current
-        node_integer_parameters[2],                           // TERP_default
-        node_integer_parameters[3],                           // TRRP_current
-        node_integer_parameters[4],                           // TRRP_default
-        node_integer_parameters[5],                           // Trest_current
-        node_integer_parameters[6],                           // Trest_default
-        node_integer_parameters[7],                           // activation
-        node_integer_parameters[8],                           // Terp_min
-        node_integer_parameters[9],                           // Terp_max
-        node_integer_parameters[10],                          // index_of_path_activate_the_node #TODO TOFIND
-        path_terminal_pair,                                   // connected_paths
-        node_pos                                              // node_pos
-    }                                             
+    _node_para{
+        node_name_,                                                     // node_name
+        static_cast<node_state_index_enum>(node_integer_parameters[0]), // 1 for rest, 2 for ERP, 3 for RRP
+        node_integer_parameters[1],                                     // TERP_current
+        node_integer_parameters[2],                                     // TERP_default
+        node_integer_parameters[3],                                     // TRRP_current
+        node_integer_parameters[4],                                     // TRRP_default
+        node_integer_parameters[5],                                     // Trest_current
+        node_integer_parameters[6],                                     // Trest_default
+        static_cast<bool>(node_integer_parameters[7]),                  // activation
+        node_integer_parameters[8],                                     // Terp_min
+        node_integer_parameters[9],                                     // Terp_max
+        node_integer_parameters[10],                                    // index_of_path_activate_the_node #TODO TOFIND
+        path_terminal_pair,                                             // connected_paths
+        node_pos                                                        // node_pos
+    }                        
 {}
+
+// Initialize pointer to zero so that it can be initialized in first call to getInstance
+NodeTable* NodeTable::instance = nullptr;
+
+NodeTable::NodeTable(
+    std::vector<std::string> node_names_,
+    std::vector<std::vector<int>> node_integer_parameters_,
+    std::vector<node_position> node_positions_
+    )
+{
+    for (int i = 0; i < node_names_.size(); ++i){
+        std::vector<path_terminal_pair> path_terminal_pair1 = PathTable::getInstance()->path_terminal_pairs_per_point_list[i];
+        Node node1(node_names_[i], node_integer_parameters_[i], path_terminal_pair1, node_positions_[i]);
+        node_table.push_back(node1);
+    }
+}
+
+
+NodeTable *NodeTable::getInstance(){
+    if (instance == nullptr){
+        instance = new NodeTable(node_names, node_integer_parameters, node_positions);
+    }
+    return instance;
+}
+
 
 // Destructor
 // Node::~Node() = default // TODO 
-
+/*
 // Method to simulate the node
 void Node::node_automatron(node_parameters &node_para, int& path_ind, int& term_ind, path_table){
     temp_act=0;
@@ -178,5 +206,5 @@ temp=[node_para(1:8),temp_act,node_para(10:12)];
 %---------------------------------------
 return
 }
-
-#endif // NODE_MODEL_CPP
+*/
+#endif // _NODE_MODEL_CPP
