@@ -5,8 +5,7 @@
 #include <unordered_map> 
 #include "GLOBAL_ENUMS.hpp"
 #include "data.hpp"
-#include "node_model.hpp" // TODO: remove this dependency
-
+class NodeTable;    // Forward declaration of NodeTable to avoid circular dependency
 
 class Path{
 public:
@@ -16,7 +15,7 @@ public:
         const std::vector<float> &path_float_parameters
     );
     // ~Path();
-    void path_automatron(NodeTable& NT);
+    void path_automaton(NodeTable& NT);
 
     // Getter methods
     const path_parameters& getParameters() const { return _path_para; }
@@ -46,9 +45,9 @@ private:
 class PathTable{
 public:
     PathTable(
-        std::vector<std::string> path_names,
-        std::vector<std::vector<int>> path_integer_parameters,
-        std::vector<std::vector<float>> path_float_parameters);
+        const std::vector<std::string> &path_names,
+        const std::vector<std::vector<int>> &path_integer_parameters,
+        const std::vector<std::vector<float>> &path_float_parameters);
     // ~PathTable();
     std::vector<std::vector<path_terminal_pair>> path_terminal_pairs_per_point_list; // TODO: make this private
     std::vector<Path> path_table;       // TODO prevent direct access to this variable

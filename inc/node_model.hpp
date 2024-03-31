@@ -7,8 +7,7 @@
 #include <vector>
 #include "GLOBAL_ENUMS.hpp"
 #include "data.hpp"
-#include "path_model.hpp"
-
+class PathTable;    // Forward declaration of PathTable to avoid circular dependency
 
 class Node{
 public:
@@ -17,7 +16,7 @@ public:
          const std::vector<path_terminal_pair> &path_terminal_pair,
          const node_position &node_pos);
     // ~Node();
-    void node_automatron();
+    void node_automaton(PathTable &PT);
 
     // Getter methods
     const node_parameters& getParameters() const { return _node_para; }
@@ -46,17 +45,15 @@ private:
 
 // root singleton class for the node table
 class NodeTable{
-private:
-    NodeTable(
-        std::vector<std::string> node_names,
-        std::vector<std::vector<int>> node_int_parameters,
-        std::vector<node_position> node_positions
-    );
 public:
+    NodeTable(
+        const std::vector<std::string> &node_names_,
+        const std::vector<std::vector<int>> &node_int_parameters_,
+        const std::vector<node_position> &node_positions_,
+        const PathTable &PathTable
+    );
     // ~NodeTable();
-    static NodeTable *getInstance();
     std::vector<Node> node_table;
-    static NodeTable* instance;
 
 };
 

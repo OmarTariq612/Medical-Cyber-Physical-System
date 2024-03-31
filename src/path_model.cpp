@@ -1,7 +1,7 @@
 #ifndef _PATH_MODEL_CPP
 #define _PATH_MODEL_CPP
 #include "../inc/path_model.hpp"
-#include <iostream>
+#include "../inc/node_model.hpp"
 
 // Constructor
 Path::Path(
@@ -28,9 +28,9 @@ Path::Path(
 }
 
 PathTable::PathTable(
-    std::vector<std::string> path_names_,
-    std::vector<std::vector<int>> path_integer_parameters_,
-    std::vector<std::vector<float>> path_float_parameters_)
+    const std::vector<std::string> &path_names_,
+    const std::vector<std::vector<int>> &path_integer_parameters_,
+    const std::vector<std::vector<float>> &path_float_parameters_)
 {
     for (int i = 0; i < path_names_.size(); ++i)
     {
@@ -46,7 +46,7 @@ PathTable::PathTable(
         node_idx_paths_terminals_umap[entry_idx].push_back(path_terminal_pair{path_idx, __entry});
         node_idx_paths_terminals_umap[exit_idx].push_back(path_terminal_pair{path_idx, __exit});
     }
-    int node_count = node_names.size();
+    int node_count = Data.node_names.size();
     // made this instead of using the node_table.size() because the node_table is not initialized yet and it will go into a cyclic dependency problem
     for (int node_idx = 0; node_idx < node_count; ++node_idx)
     {
@@ -54,26 +54,8 @@ PathTable::PathTable(
     }
 }
 
-void Path::path_automatron(NodeTable& NT){
-    //////////////////////////////////////////////////////////////////////////////////////////
-    // This function update the status of a single path
-    //
-    // Inputs:
-    // path_para: Cell array, parameters for the paths
-    //
-    //            format: {'path_name',path_state_index, entry_node_index,
-    //            exit_node_index, amplitude_factor, forward_speed,
-    //            backward_speed, forward_timer_current, forward_timer_default,
-    //            backward_timer_current, backward_timer_default, path_length,
-    //            path_slope}
-    // node_act_1: boolean, activation status of the entry node
-    // node_act_2: boolean, activation status of the exit node
-    //
-    // Outputs:
-    // temp_act_1: boolean, local temporary node activation of the entry node
-    // temp_node2_activation: boolean, local temporary node activation of the exit node
-    //////////////////////////////////////////////////////////////////////////////////////////
-
+// Path automaton
+void Path::path_automaton(NodeTable& NT){
     bool temp_node1_activation = false;
     bool temp_node2_activation = false;
     const int entry_node_index = _path_para.entry_node_index;

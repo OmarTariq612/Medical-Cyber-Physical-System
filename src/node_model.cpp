@@ -1,6 +1,6 @@
 #ifndef _NODE_MODEL_CPP
 #define _NODE_MODEL_CPP
-// #include <iostream>
+#include "../inc/path_model.hpp"
 #include "../inc/node_model.hpp"
 
 // Create a random number generator
@@ -14,56 +14,46 @@ Node::Node(
     const std::vector<int> &node_integer_parameters,
     const std::vector<path_terminal_pair> &path_terminal_pair,
     const node_position &node_pos)
-    : _node_para{
-          node_name_,                                                     // node_name
-          static_cast<node_state_index_enum>(node_integer_parameters[0]), // 1 for rest, 2 for ERP, 3 for RRP
-          node_integer_parameters[1],                                     // TERP_current
-          node_integer_parameters[2],                                     // TERP_default
-          node_integer_parameters[3],                                     // TRRP_current
-          node_integer_parameters[4],                                     // TRRP_default
-          node_integer_parameters[5],                                     // Trest_current
-          node_integer_parameters[6],                                     // Trest_default
-          static_cast<bool>(node_integer_parameters[7]),                  // activation
-          node_integer_parameters[8],                                     // Terp_min
-          node_integer_parameters[9],                                     // Terp_max
-          node_integer_parameters[10],                                    // index_of_path_activate_the_node
-          static_cast<AVness_enum>(node_integer_parameters[11]),          // AVness (1) AV, (2) non_AV
-          path_terminal_pair,                                             // connected_paths
-          node_pos                                                        // node_pos
-      }
+    : 
+    _node_para{
+        node_name_,                                                     // node_name
+        static_cast<node_state_index_enum>(node_integer_parameters[0]), // 1 for rest, 2 for ERP, 3 for RRP
+        node_integer_parameters[1],                                     // TERP_current
+        node_integer_parameters[2],                                     // TERP_default
+        node_integer_parameters[3],                                     // TRRP_current
+        node_integer_parameters[4],                                     // TRRP_default
+        node_integer_parameters[5],                                     // Trest_current
+        node_integer_parameters[6],                                     // Trest_default
+        static_cast<bool>(node_integer_parameters[7]),                  // activation
+        node_integer_parameters[8],                                     // Terp_min
+        node_integer_parameters[9],                                     // Terp_max
+        node_integer_parameters[10],                                    // index_of_path_activate_the_node
+        static_cast<AVness_enum>(node_integer_parameters[11]),          // AVness (1) AV, (2) non_AV
+        path_terminal_pair,                                             // connected_paths
+        node_pos                                                        // node_pos
+    }
 {
 }
 
-// Initialize pointer to zero so that it can be initialized in first call to getInstance
-NodeTable *NodeTable::instance = nullptr;
-
 NodeTable::NodeTable(
-    std::vector<std::string> node_names_,
-    std::vector<std::vector<int>> node_integer_parameters_,
-    std::vector<node_position> node_positions_)
+    const std::vector<std::string> &node_names_,
+    const std::vector<std::vector<int>> &node_int_parameters_,
+    const std::vector<node_position> &node_positions_,
+    const PathTable &PathTable)
 {
     for (int i = 0; i < node_names_.size(); ++i)
     {
-        std::vector<path_terminal_pair> path_terminal_pair1 = PathTable::getInstance()->path_terminal_pairs_per_point_list[i];
-        Node node1(node_names_[i], node_integer_parameters_[i], path_terminal_pair1, node_positions_[i]);
+        std::vector<path_terminal_pair> path_terminal_pair1 = PathTable.path_terminal_pairs_per_point_list[i];
+        Node node1(node_names_[i], node_int_parameters_[i], path_terminal_pair1, node_positions_[i]);
         node_table.push_back(node1);
     }
-}
-
-NodeTable *NodeTable::getInstance()
-{
-    if (instance == nullptr)
-    {
-        instance = new NodeTable(node_names, node_integer_parameters, node_positions);
-    }
-    return instance;
 }
 
 // Destructor
 // Node::~Node() = default // TODO
 
 // Method to simulate the node
-void Node::node_automatron()
+void Node::node_automaton(PathTable &PT)
 {
     int t_activation = 0; // temporary_activation
 
@@ -86,7 +76,7 @@ void Node::node_automatron()
             for (int i = 0; i < _node_para.connected_paths.size(); ++i)
             {
                 int path_idx = _node_para.connected_paths[i].path_idx;
-                const path_parameters &path_parameters = PathTable::getInstance()->path_table[path_idx].getParameters();
+                const path_parameters &path_parameters = PT.path_table[path_idx].getParameters();
                 float original_forward_speed = path_parameters.forward_speed;   // path_table{path_idx, 6}
                 float original_backward_speed = path_parameters.backward_speed; // path_table{path_idx, 7}
                 float original_path_length = path_parameters.path_length;       // path_table{path_idx, 12}
@@ -94,12 +84,12 @@ void Node::node_automatron()
                 if (_node_para.connected_paths[i].terminal == __entry)
                 { // TODO: investigate the multiplication by 0
                     float tmp_forward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_forward_speed);
-                    PathTable::getInstance()->path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
+                    PT.path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
                 }
                 else
                 {
                     float tmp_backward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_backward_speed);
-                    PathTable::getInstance()->path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
+                    PT.path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
                 }
             }
 
@@ -118,7 +108,7 @@ void Node::node_automatron()
             for (int idx = 0; idx < _node_para.connected_paths.size(); ++idx)
             {
                 int path_idx = _node_para.connected_paths[idx].path_idx;
-                const path_parameters &path_parameters = PathTable::getInstance()->path_table[path_idx].getParameters();
+                const path_parameters &path_parameters = PT.path_table[path_idx].getParameters();
                 float original_forward_speed = path_parameters.forward_speed;   // path_table{path_idx, 6}
                 float original_backward_speed = path_parameters.backward_speed; // path_table{path_idx, 7}
                 float original_path_length = path_parameters.path_length;       // path_table{path_idx, 12}
@@ -126,12 +116,12 @@ void Node::node_automatron()
                 if (_node_para.connected_paths[idx].terminal == __entry)
                 { // TODO: investigate the multiplication by 0
                     float tmp_forward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_forward_speed * (_node_para.AVness + 1));
-                    PathTable::getInstance()->path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
+                    PT.path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
                 }
                 else
                 {
                     float tmp_backward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_backward_speed * 3);
-                    PathTable::getInstance()->path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
+                    PT.path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
                 }
             }
 
@@ -162,7 +152,7 @@ void Node::node_automatron()
                 /////////////////////////////////////////////////
                 // same here, only AV node has faster trend
                 int path_idx = _node_para.connected_paths[idx].path_idx;
-                const path_parameters &path_parameters = PathTable::getInstance()->path_table[path_idx].getParameters();
+                const path_parameters &path_parameters = PT.path_table[path_idx].getParameters();
                 float original_path_length = path_parameters.path_length;       // path_table{path_idx, 12}
                 float original_forward_speed = path_parameters.forward_speed;   // path_table{path_idx, 6}
                 float original_backward_speed = path_parameters.backward_speed; // path_table{path_idx, 7}
@@ -171,12 +161,12 @@ void Node::node_automatron()
                     if (_node_para.connected_paths[idx].terminal == __entry)
                     {
                         float tmp_forward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_forward_speed * (1 + ratio * 3));
-                        PathTable::getInstance()->path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
+                        PT.path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
                     }
                     else
                     {
                         float tmp_backward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_backward_speed * (1 + ratio * 3));
-                        PathTable::getInstance()->path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
+                        PT.path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
                     }
                 }
                 else
@@ -184,12 +174,12 @@ void Node::node_automatron()
                     if (_node_para.connected_paths[idx].terminal == __entry)
                     {
                         float tmp_forward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_forward_speed * (1 + ratio * ratio * 3));
-                        PathTable::getInstance()->path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
+                        PT.path_table[path_idx].setForwardTimerDefault(tmp_forward_timer_default);
                     }
                     else
                     {
                         float tmp_backward_timer_default = std::round((1 + (_rand(generator) - 0.5) * 0) * original_path_length / original_backward_speed * (1 + ratio * ratio * 3));
-                        PathTable::getInstance()->path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
+                        PT.path_table[path_idx].setBackwardTimerDefault(tmp_backward_timer_default);
                     }
                 }
             }

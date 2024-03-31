@@ -1,5 +1,8 @@
 #ifndef _DATA_HPP
 #define _DATA_HPP 
+
+class{
+public:
     /* Nodes Data */
     /* matlab name: node_table */
     //  Consider this vector as a column to the left of the node_integer_parameters
@@ -9,7 +12,7 @@
         "CT_a", "RA_a", "RA", "SEP_RV_m", "SEP_RV", "SEP_LV_m", "SEP_LV", "CS_LV", 
         "CS_LA", "slow_b", "slow_a", "fast", "fast_b"
     };
-    const std::vector<std::vector<int>> node_integer_parameters = {
+    const std::vector<std::vector<int>> node_int_parameters = {
         {1, 220, 220, 10,  20,  700,  700,  0, 150, 300, 0, 2},
         {1, 220, 220, 120, 120, 9999, 9999, 0, 150, 360, 0, 2},
         {1, 320, 320, 250, 250, 9999, 9999, 0, 350, 230, 0, 1},
@@ -166,7 +169,5 @@
         {2,	                2,	                13,	13,	13,	13,	25,	                1.33333333333333},
         {2,	                2,	                10,	10,	10,	10,	20.0997512422418,	-10},
         {2,	                2,	                7,	7,	7,	7,	13.0384048104053,	-13}};
-
-
-
+} Data;
 #endif // _DATA_HPP
