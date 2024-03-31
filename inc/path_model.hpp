@@ -22,6 +22,20 @@ public:
     const path_parameters& getParameters() const { return _path_para; }
     // Setter methods
     void setParameters(const path_parameters& parameters) { _path_para = parameters; }
+    void setPathName(const std::string &path_name) { _path_para.path_name = path_name; }
+    void setPathStateIndex(const path_state_index_enum &path_state_index) { _path_para.path_state_index = path_state_index; }
+    void setEntryNodeIndex(const int &entry_node_index) { _path_para.entry_node_index = entry_node_index; }
+    void setExitNodeIndex(const int &exit_node_index) { _path_para.exit_node_index = exit_node_index; }
+    void setAmplitudeFactor(const int &amplitude_factor) { _path_para.amplitude_factor = amplitude_factor; }
+    void setForwardSpeed(const float &forward_speed) { _path_para.forward_speed = forward_speed; }
+    void setBackwardSpeed(const float &backward_speed) { _path_para.backward_speed = backward_speed; }
+    void setForwardTimerCurrent(const float &forward_timer_current) { _path_para.forward_timer_current = forward_timer_current; }
+    void setForwardTimerDefault(const float &forward_timer_default) { _path_para.forward_timer_default = forward_timer_default; }
+    void setBackwardTimerCurrent(const float &backward_timer_current) { _path_para.backward_timer_current = backward_timer_current; }
+    void setBackwardTimerDefault(const float &backward_timer_default) { _path_para.backward_timer_default = backward_timer_default; }
+    void setPathLength(const float &path_length) { _path_para.path_length = path_length; }
+    void setPathSlope(const float &path_slope) { _path_para.path_slope = path_slope; }
+    
 
 private:
     path_parameters _path_para;

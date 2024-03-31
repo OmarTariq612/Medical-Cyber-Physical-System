@@ -26,5 +26,5 @@ int main(){
 }
 
 
-// TODO: fill the node positions in the NodeList constructor
 // TODO: implement the logic of the node and path
+// TODO: exclude the path that activates the node from the list of paths that the node affects
