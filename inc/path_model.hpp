@@ -5,7 +5,7 @@
 #include <unordered_map> 
 #include "GLOBAL_ENUMS.hpp"
 #include "data.hpp"
-// #include "node_model.hpp"
+#include "node_model.hpp" // TODO: remove this dependency
 
 
 class Path{
@@ -16,7 +16,7 @@ public:
         const std::vector<float> &path_float_parameters
     );
     // ~Path();
-    // void path_automatron();
+    void path_automatron();
 
     // Getter methods
     const path_parameters& getParameters() const { return _path_para; }
@@ -35,7 +35,7 @@ public:
     void setBackwardTimerDefault(const float &backward_timer_default) { _path_para.backward_timer_default = backward_timer_default; }
     void setPathLength(const float &path_length) { _path_para.path_length = path_length; }
     void setPathSlope(const float &path_slope) { _path_para.path_slope = path_slope; }
-    
+
 
 private:
     path_parameters _path_para;
