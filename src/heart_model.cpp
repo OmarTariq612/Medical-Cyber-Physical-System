@@ -23,6 +23,8 @@ Heart::Heart(
 {
 }
 
+// initialize the instance to nullptr
+Heart *Heart::instance = nullptr;
 
 
 Heart *Heart::getInstance(){

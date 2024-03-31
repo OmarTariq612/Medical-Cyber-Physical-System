@@ -1,13 +1,13 @@
 #ifndef _HEART_MODEL_HPP
 #define _HEART_MODEL_HPP
 
-
-#include "path_model.hpp"
-#include "node_model.hpp"
 #include <vector>
 #include <string>
 #include "GLOBAL_ENUMS.hpp"
 #include "data.hpp"
+#include "path_model.hpp"
+#include "node_model.hpp"
+
 
 class Heart{
 private:
@@ -19,12 +19,14 @@ private:
         const std::vector<std::vector<int>> &h_path_integer_parameters,
         const std::vector<std::vector<float>> &h_path_float_parameters
     );
+    PathTable m_path_table;     
+    // It is important to initialize the NodeTable first because the PathTable depends on it.
+    // The initialization occurs in the order they are declared in the class, not the initialization list order.
     NodeTable m_node_table;
-    PathTable m_path_table;
+    static Heart *instance;
 public:
     static Heart *getInstance();    
     // void heart_automaton();
-    static Heart *instance;
     // getter methods
     const NodeTable& getNodeTable() const { return m_node_table; }
     const PathTable& getPathTable() const { return m_path_table; }
