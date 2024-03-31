@@ -5,22 +5,23 @@
 #include <vector>
 #include "../inc/GLOBAL_ENUMS.hpp"
 #include "../inc/data.hpp"
-#include "../inc/node_model.hpp"
+// #include "../inc/node_model.hpp"
 #include "../inc/path_model.hpp"
 
 int main(){
     // Test PathTable
-    PathTable *path_table = PathTable::getInstance();
-    std::cout << "Number of paths: " << path_table->path_table.size() << std::endl;
+    std::unique_ptr<PathTable> path_table2 = std::make_unique<PathTable>(
+        path_names,
+        path_int_parameters,
+        path_float_parameters);
+    std::cout << "Number of paths: " << path_table2->path_table.size() << std::endl;
     std::cout << "Path name: " << 
-                    path_table->instance->path_table[0].getParameters().path_name << std::endl;
-    
-
+                    path_table2->path_table[0].getParameters().path_name << std::endl;
 
     // Test NodeTable
-    NodeTable *node_table = NodeTable::getInstance();
-    std::cout << "Number of nodes: " << node_table->node_table.size() << std::endl;
-    std::cout << "Node name: " << node_table->node_table[0].getParameters().node_name << std::endl;
+    // NodeTable *node_table = NodeTable::getInstance();
+    // std::cout << "Number of nodes: " << node_table->node_table.size() << std::endl;
+    // std::cout << "Node name: " << node_table->node_table[0].getParameters().node_name << std::endl;
 
     return 0;
 }

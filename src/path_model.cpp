@@ -8,26 +8,24 @@ Path::Path(
     const std::string &path_name_,
     const std::vector<int> &path_integer_parameters,
     const std::vector<float> &path_float_parameters)
-    : _path_para{
-          path_name_,
-          static_cast<path_state_index_enum>(path_integer_parameters[0]), // (1) Idle, (2) Antegrade conduction, (3) Retrograde, (4) Conflict, and (5) Double
-          path_integer_parameters[1],                                     // entry_node_index = 0 (originally 1)
-          path_integer_parameters[2],                                     // exit_node_index = 1 (originally 2)
-          path_integer_parameters[3],                                     // amplitude_factor
-          path_float_parameters[0],                                       // forward_speed
-          path_float_parameters[1],                                       // backward_speed
-          path_float_parameters[2],                                       // forward_timer_current
-          path_float_parameters[3],                                       // forward_timer_default
-          path_float_parameters[4],                                       // backward_timer_current
-          path_float_parameters[5],                                       // backward_timer_default
-          path_float_parameters[6],                                       // path_length
-          path_float_parameters[7]                                        // path_slope
-      }
+    : 
+    _path_para{
+        path_name_,
+        static_cast<path_state_index_enum>(path_integer_parameters[0]), // (1) Idle, (2) Antegrade conduction, (3) Retrograde, (4) Conflict, and (5) Double
+        path_integer_parameters[1],                                     // entry_node_index = 0 (originally 1)
+        path_integer_parameters[2],                                     // exit_node_index = 1 (originally 2)
+        path_integer_parameters[3],                                     // amplitude_factor
+        path_float_parameters[0],                                       // forward_speed
+        path_float_parameters[1],                                       // backward_speed
+        path_float_parameters[2],                                       // forward_timer_current
+        path_float_parameters[3],                                       // forward_timer_default
+        path_float_parameters[4],                                       // backward_timer_current
+        path_float_parameters[5],                                       // backward_timer_default
+        path_float_parameters[6],                                       // path_length
+        path_float_parameters[7]                                        // path_slope
+    }
 {
 }
-
-// Initialize pointer to zero so that it can be initialized in first call to getInstance
-PathTable *PathTable::instance = nullptr;
 
 PathTable::PathTable(
     std::vector<std::string> path_names_,
@@ -56,17 +54,7 @@ PathTable::PathTable(
     }
 }
 
-PathTable *PathTable::getInstance()
-{
-    if (instance == nullptr)
-    {
-        instance = new PathTable(path_names, path_int_parameters, path_float_parameters);
-    }
-    return instance;
-}
-
-void Path::path_automatron()
-{
+void Path::path_automatron(NodeTable& NT){
     //////////////////////////////////////////////////////////////////////////////////////////
     // This function update the status of a single path
     //
@@ -90,8 +78,8 @@ void Path::path_automatron()
     bool temp_node2_activation = false;
     const int entry_node_index = _path_para.entry_node_index;
     const int exit_node_index = _path_para.exit_node_index;
-    Node &entry_node = NodeTable::getInstance()->node_table[entry_node_index];
-    Node &exit_node = NodeTable::getInstance()->node_table[exit_node_index];
+    Node &entry_node = NT.node_table[entry_node_index];
+    Node &exit_node = NT.node_table[exit_node_index];
     switch (_path_para.path_state_index)
     {
     case Idle: // Idle
