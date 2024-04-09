@@ -55,7 +55,7 @@ NodeTable::NodeTable(
 // Method to simulate the node
 void Node::node_automaton(PathTable &PT)
 {
-    int t_activation = 0; // temporary_activation
+    bool t_activation = false; // temporary_activation
 
     if (_node_para.activation == true)
     { // if node is activated
@@ -76,6 +76,8 @@ void Node::node_automaton(PathTable &PT)
             for (int i = 0; i < _node_para.connected_paths.size(); ++i)
             {
                 int path_idx = _node_para.connected_paths[i].path_idx;
+                if (_node_para.index_of_path_activate_the_node == path_idx)
+                    continue;
                 const path_parameters &path_parameters = PT.path_table[path_idx].getParameters();
                 float original_forward_speed = path_parameters.forward_speed;   // path_table{path_idx, 6}
                 float original_backward_speed = path_parameters.backward_speed; // path_table{path_idx, 7}
@@ -108,6 +110,8 @@ void Node::node_automaton(PathTable &PT)
             for (int idx = 0; idx < _node_para.connected_paths.size(); ++idx)
             {
                 int path_idx = _node_para.connected_paths[idx].path_idx;
+                if (_node_para.index_of_path_activate_the_node == path_idx)
+                    continue;
                 const path_parameters &path_parameters = PT.path_table[path_idx].getParameters();
                 float original_forward_speed = path_parameters.forward_speed;   // path_table{path_idx, 6}
                 float original_backward_speed = path_parameters.backward_speed; // path_table{path_idx, 7}
@@ -152,6 +156,8 @@ void Node::node_automaton(PathTable &PT)
                 /////////////////////////////////////////////////
                 // same here, only AV node has faster trend
                 int path_idx = _node_para.connected_paths[idx].path_idx;
+                if (_node_para.index_of_path_activate_the_node == path_idx)
+                    continue;
                 const path_parameters &path_parameters = PT.path_table[path_idx].getParameters();
                 float original_path_length = path_parameters.path_length;       // path_table{path_idx, 12}
                 float original_forward_speed = path_parameters.forward_speed;   // path_table{path_idx, 6}
@@ -203,7 +209,7 @@ void Node::node_automaton(PathTable &PT)
                 // reset Trest timer
                 _node_para.Trest_current = std::round((1 + (_rand(generator) - 0.5) * 0) * _node_para.Trest_default);
                 // activate the node
-                t_activation = 1;
+                t_activation = true;
             }
             else // timer
                 _node_para.Trest_current--;

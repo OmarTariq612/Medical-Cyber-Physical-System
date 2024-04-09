@@ -26,7 +26,7 @@ private:
     static Heart *instance;
 public:
     static Heart *getInstance();    
-    // void heart_automaton();
+    void heart_automaton();
     // getter methods
     const NodeTable& getNodeTable() const { return m_node_table; }
     const PathTable& getPathTable() const { return m_path_table; }
