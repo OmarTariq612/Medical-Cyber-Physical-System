@@ -136,6 +136,7 @@ void Path::path_automaton(NodeTable& NT){
             temp_node1_activation = true;
             // change state to conflict
             // path_para{2}=2; TODO: check this
+            // _path_para.path_state_index = Antegrade_conduction;
             _path_para.path_state_index = Conflict;
             // Update the path nodes activation before returning
             entry_node.setActivation(temp_node1_activation);
@@ -150,6 +151,7 @@ void Path::path_automaton(NodeTable& NT){
             temp_node2_activation = true;
             // go to conflict state
             // path_para{2}=3; TODO: check this too
+            // _path_para.path_state_index = Retrograde;
             _path_para.path_state_index = Conflict;
             // Update the path nodes activation before returning
             entry_node.setActivation(temp_node1_activation);

@@ -1,5 +1,6 @@
 #ifndef _NODE_MODEL_HPP
 #define _NODE_MODEL_HPP
+#include <iostream>
 #include <cmath>
 #include <ctime>
 #include <random>

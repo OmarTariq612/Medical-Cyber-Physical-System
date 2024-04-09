@@ -226,6 +226,7 @@ void Node::node_automaton(PathTable &PT)
                 _node_para.TERP_current--;
             break;
         case RRP: // RRP
+            // std::cout << _node_para.TRRP_current << std::endl;
             if (_node_para.TRRP_current == 0)
             { // timer running out
                 // change state to rest
@@ -234,7 +235,7 @@ void Node::node_automaton(PathTable &PT)
                 _node_para.TRRP_current = round((1 + (_rand(generator) - 0.5) * 0) * _node_para.TRRP_default);
             }
             else // timer
-                _node_para.Trest_current--;
+                _node_para.TRRP_current--;
             break;
         }
     }
