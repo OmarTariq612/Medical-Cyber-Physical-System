@@ -56,6 +56,16 @@ PathTable::PathTable(
 
 // Path automaton
 void Path::path_automaton(NodeTable& NT){
+    /*
+    in the _path_para it changes:
+        1. path_state_index         [2]
+        2. forward_timer_current    [8]
+        3. backward_timer_current   [10]
+    in the NT it changes:
+        1. activation               [9]
+    */
+
+
     bool temp_node1_activation = false;
     bool temp_node2_activation = false;
     const int entry_node_index = _path_para.entry_node_index;
@@ -136,8 +146,8 @@ void Path::path_automaton(NodeTable& NT){
             temp_node1_activation = true;
             // change state to conflict
             // path_para{2}=2; TODO: check this
-            // _path_para.path_state_index = Antegrade_conduction;
-            _path_para.path_state_index = Conflict;
+            _path_para.path_state_index = Antegrade_conduction;
+            // _path_para.path_state_index = Conflict;
             // Update the path nodes activation before returning
             entry_node.setActivation(temp_node1_activation);
             exit_node.setActivation(temp_node2_activation);
@@ -151,8 +161,8 @@ void Path::path_automaton(NodeTable& NT){
             temp_node2_activation = true;
             // go to conflict state
             // path_para{2}=3; TODO: check this too
-            // _path_para.path_state_index = Retrograde;
-            _path_para.path_state_index = Conflict;
+            _path_para.path_state_index = Retrograde;
+            // _path_para.path_state_index = Conflict;
             // Update the path nodes activation before returning
             entry_node.setActivation(temp_node1_activation);
             exit_node.setActivation(temp_node2_activation);

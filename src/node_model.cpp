@@ -55,6 +55,17 @@ NodeTable::NodeTable(
 // Method to simulate the node
 void Node::node_automaton(PathTable &PT)
 {
+    /*
+    in the _node_para it changes:
+        1. node_state_index         [2]
+        2. TERP_current             [3]
+        3. TERP_default             [4]
+        4. TRRP_current             [5]
+        5. Trest_current            [7]
+    and in the PT it changes:
+        1. forward_timer_default    [9]
+        2. backward_timer_default   [11]
+    */
     bool t_activation = false; // temporary_activation
 
     if (_node_para.activation == true)

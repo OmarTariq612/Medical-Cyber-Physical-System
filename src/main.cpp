@@ -6,17 +6,18 @@
 int main(){
     // Test HeartModel
     Heart *heart_model = Heart::getInstance();
-    // std::cout << "Number of nodes: " << heart_model->getNodeTable().node_table.size() << std::endl;
-    // std::cout << "Number of paths: " << heart_model->getPathTable().path_table.size() << std::endl;
     // std::cout << heart_model->getPathTable().path_table[0].getParameters().path_state_index << std::endl;
     for (int i = 0; i < 2000; ++i){
         heart_model->heart_automaton();
         // std::cout << heart_model->getNodeTable().node_table[0].getParameters().node_state_index << std::endl;
-        std::cout << heart_model->getNodeTable().node_table[0].getParameters().TERP_current << std::endl;
+        for (int j = 0; j < heart_model->getNodeTable().node_table.size(); ++j){
+            std::cout << heart_model->getNodeTable().node_table[j].getParameters().node_state_index << " ";
+        }
+        // for (int j = 0; j < heart_model->getPathTable().path_table.size(); ++j){
+        //     std::cout << heart_model->getPathTable().path_table[j].getParameters().path_state_index << " ";
+        // }
+        std::cout << std::endl;
     }
-    // std::cout << "Number of nodes: " << heart_model->getNodeTable().node_table.size() << std::endl;
-    // std::cout << "Number of paths: " << heart_model->getPathTable().path_table.size() << std::endl;
-    
     return 0;
 }
 

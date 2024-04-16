@@ -97,6 +97,7 @@ void Heart::heart_automaton()
         // update parameters for each node
         // [m_node_table(i,:),temp_path_node]=node_automatron(NT_editable_copy(i,:),path_ind,term_ind,temp_path_node);
         Node &node = m_node_table.node_table[i];
+        node.setIndex_of_path_activate_the_node(-1);
         node.node_automaton(temp_path_node);
         // create local variables for node activation signals
         // for ease of use and manipulation
@@ -163,7 +164,8 @@ void Heart::heart_automaton()
         // ind = find(cell2mat(temp_path_node( :, 9)) ~ = cell2mat(m_path_table( :, 9)));
     for (int i = 0; i < m_path_table.path_table.size(); ++i){
         if (temp_path_node.path_table[i].getParameters().forward_timer_default !=
-            m_path_table.path_table[i].getParameters().forward_timer_default){
+              m_path_table.path_table[i].getParameters().forward_timer_default){
+            std::cout << "tmp_path doesnt equal tmp_path_node" << std::endl;
             m_path_table.path_table[i].setForwardTimerDefault(
                 temp_path_node.path_table[i].getParameters().forward_timer_default);
             if (temp_path_node.path_table[i].getParameters().path_state_index == Idle){
