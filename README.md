@@ -50,7 +50,8 @@ cmake -Bbuild -G "MinGW Makefiles"
 cmake --build build --config Debug --target all -j 10 --
 build\MyHeart.exe                                       
 ```
-
-
-
+## UI
+The current stage of the project is to build a UI for the heart model. The UI will be built using Qt/QML. The UI will be used to visualize the heart model and the action potential cycle.
+![alt text](assets/ui/basic_ui.png)
+It is the stage of debugging now. the model seems to not send the activation signal forward form the SA to the path.
 
