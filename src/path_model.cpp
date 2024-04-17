@@ -12,8 +12,8 @@ Path::Path(
     _path_para{
         path_name_,
         static_cast<path_state_index_enum>(path_integer_parameters[0]), // (1) Idle, (2) Antegrade conduction, (3) Retrograde, (4) Conflict, and (5) Double
-        path_integer_parameters[1],                                     // entry_node_index = 0 (originally 1)
-        path_integer_parameters[2],                                     // exit_node_index = 1 (originally 2)
+        path_integer_parameters[1] - 1,                                 // entry_node_index = 0 (originally 1)
+        path_integer_parameters[2] - 1,                                 // exit_node_index = 1 (originally 2)
         path_integer_parameters[3],                                     // amplitude_factor
         path_float_parameters[0],                                       // forward_speed
         path_float_parameters[1],                                       // backward_speed
@@ -55,7 +55,7 @@ PathTable::PathTable(
 }
 
 // Path automaton
-void Path::path_automaton(NodeTable& NT){
+std::pair<bool, bool> Path::path_automaton(NodeTable& NT){
     /*
     in the _path_para it changes:
         1. path_state_index         [2]
@@ -149,9 +149,10 @@ void Path::path_automaton(NodeTable& NT){
             _path_para.path_state_index = Antegrade_conduction;
             // _path_para.path_state_index = Conflict;
             // Update the path nodes activation before returning
-            entry_node.setActivation(temp_node1_activation);
-            exit_node.setActivation(temp_node2_activation);
-            return;
+            // entry_node.setActivation(temp_node1_activation);
+            // exit_node.setActivation(temp_node2_activation);
+            return {temp_node1_activation, temp_node2_activation};
+            // return;
         }
         if (_path_para.forward_timer_current == 0)
         {
@@ -164,9 +165,10 @@ void Path::path_automaton(NodeTable& NT){
             _path_para.path_state_index = Retrograde;
             // _path_para.path_state_index = Conflict;
             // Update the path nodes activation before returning
-            entry_node.setActivation(temp_node1_activation);
-            exit_node.setActivation(temp_node2_activation);
-            return;
+            // entry_node.setActivation(temp_node1_activation);
+            // exit_node.setActivation(temp_node2_activation);
+            return {temp_node1_activation, temp_node2_activation};
+            // return;
         }
         if (std::abs(1 - _path_para.forward_timer_current / _path_para.forward_timer_default - _path_para.backward_timer_current / _path_para.backward_timer_default) < (0.9 / std::min(_path_para.forward_timer_default, _path_para.backward_timer_default)))
         {
@@ -181,7 +183,7 @@ void Path::path_automaton(NodeTable& NT){
         }
         break;
     }
-    return;
+    return {temp_node1_activation, temp_node2_activation};
 }
 
 #endif // _PATH_MODEL_CPP

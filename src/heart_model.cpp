@@ -1,5 +1,4 @@
 #include "../inc/heart_model.hpp"
-#include "heart_model.hpp"
 
 
 Heart::Heart(
@@ -83,9 +82,13 @@ void Heart::heart_automaton()
     */
 
     // local temp node & path table
-    NodeTable NT_editable_copy = m_node_table;
+
+    NodeTable temp_node = m_node_table;
+    PathTable temp_path = m_path_table;
+    PathTable path_table = m_path_table;
+    NodeTable node_table = m_node_table;
     // PathTable temp_path = m_path_table;
-    
+
     //**************************************************
     // a temp path table that can be updated by node automata
     PathTable temp_path_node = m_path_table;
@@ -93,114 +96,85 @@ void Heart::heart_automaton()
     std::vector<bool> temp_act(m_node_table.node_table.size());
 
     for (int i = 0; i < m_node_table.node_table.size(); ++i) {
-        //---------------------------------
-        // update parameters for each node
-        // [m_node_table(i,:),temp_path_node]=node_automatron(NT_editable_copy(i,:),path_ind,term_ind,temp_path_node);
-        Node &node = m_node_table.node_table[i];
-        node.setIndex_of_path_activate_the_node(-1);
-        node.node_automaton(temp_path_node);
-        // create local variables for node activation signals
-        // for ease of use and manipulation
-        // temp_act[i] = m_node_table{i,9};
-        temp_act[i] = node.getParameters().activation;
+        Node &temp_node_elem = temp_node.node_table[i];
+        temp_node_elem.setIndex_of_path_activate_the_node(-1);
+        temp_node_elem.node_automaton(temp_path_node);
+        temp_act[i] = temp_node_elem.getParameters().activation;
     }
-    
-    
+
+
     for (int i = 0; i < m_path_table.path_table.size(); ++i) {
         // update parameters for each path
         // [m_path_table(i,:),node_act_1,node_act_2]=path_automatron(path_table(i,:),NT_editable_copy{path_table{i,3},9},NT_editable_copy{path_table{i,4},9});
-        Path &path = m_path_table.path_table[i];
-        path.path_automaton(NT_editable_copy);
-        // update the local node activation signals of the two nodes
-        // connecting to the path by using "OR" operation
-        // if NT_editable_copy{path_table{i,3},2}~=2{
+        auto [node_act_1, node_act_2] = temp_path.path_table[i].path_automaton(node_table);
+        const Path& path = path_table.path_table[i];
         const int entry_index = path.getParameters().entry_node_index;
-        if(NT_editable_copy.node_table[entry_index].getParameters().node_state_index != ERP){
-            // temp_act{path_table{i,3}}=temp_act{path_table{i,3}} || node_act_1;
-            temp_act[entry_index] = temp_act[entry_index] || NT_editable_copy.node_table[entry_index].getParameters().activation;
-            //-------------------------------------
-            // store the path that activated the node
-            // if node_act_1==1
-                // m_node_table{path_table{i,3},11}=i;
-            if(NT_editable_copy.node_table[entry_index].getParameters().activation == true)
-                m_node_table.node_table[entry_index].setIndex_of_path_activate_the_node(i);
-                //-------------------------------------
-        }else{
-            // temp_act{path_table{i,3}}=false;
-            temp_act[entry_index] = false;
-            // NT_editable_copy{path_table{i,3},3}=NT_editable_copy{path_table{i,3},4};
-            NT_editable_copy.node_table[entry_index].setTERP_current(
-                NT_editable_copy.node_table[entry_index].getParameters().TERP_default);
-        }
-        const int exit_index = path.getParameters().exit_node_index;
-        // if NT_editable_copy{path_table{i,4},2}~=2{
-        if (NT_editable_copy.node_table[exit_index].getParameters().node_state_index != ERP){
-            // temp_act{path_table{i,4}}=temp_act{path_table{i,4}} || node_act_2;
-            temp_act[exit_index] = temp_act[exit_index] || NT_editable_copy.node_table[exit_index].getParameters().activation;
-            //-------------------------------------
-            // store the path that activated the node
-            // if node_act_2==1
-            if(NT_editable_copy.node_table[exit_index].getParameters().activation == true)
-                // m_node_table{path_table{i,4},11}=i;
-                m_node_table.node_table[exit_index]
-                .setIndex_of_path_activate_the_node(i);
-            //-------------------------------------
+        if (node_table.node_table[entry_index].getParameters().node_state_index != ERP){
+            temp_act[entry_index] = temp_act[entry_index] || node_act_1;
+            if (node_act_1 == true)
+                temp_node.node_table[entry_index].setIndex_of_path_activate_the_node(i);
         }
         else{
-            // temp_act{path_table{i,4}}=false;
-            temp_act[exit_index] = false;
-            // NT_editable_copy{path_table{i,4},3}=NT_editable_copy{path_table{i,4},4};
-            NT_editable_copy.node_table[exit_index].setTERP_current(
-                NT_editable_copy.node_table[exit_index].getParameters().TERP_default);
+            temp_act[entry_index] = false;
+            node_table.node_table[entry_index].setTERP_current(
+                node_table.node_table[entry_index].getParameters().TERP_default);
         }
+        const int exit_index = path.getParameters().exit_node_index;
+        if (node_table.node_table[exit_index].getParameters().node_state_index != ERP){
+            temp_act[exit_index] = temp_act[exit_index] || node_act_2;
+            if (node_act_2 == true)
+                temp_node.node_table[exit_index].setIndex_of_path_activate_the_node(i);
+        }
+        else{
+            temp_act[exit_index] = false;
+            node_table.node_table[exit_index].setTERP_current(
+                node_table.node_table[exit_index].getParameters().TERP_default);
+        }
+
     }
        // update the parameters to global variables
     //    NT_editable_copy=[m_node_table(:,1:8),temp_act',m_node_table(:,10:12)]; // TODO Uncomment this line
     for (int i = 0; i < m_node_table.node_table.size(); ++i) {
-        m_node_table.node_table[i].setActivation(temp_act[i]);
+        temp_node.node_table[i].setActivation(temp_act[i]);
     }
+    // m_node_table.node_table = temp_node.node_table;
+    m_node_table = temp_node;
+    
+
         // find changes in the default antegrade conduction of the path table
 
         // ind = find(cell2mat(temp_path_node( :, 9)) ~ = cell2mat(m_path_table( :, 9)));
-    for (int i = 0; i < m_path_table.path_table.size(); ++i){
+    for (int i = 0; i < temp_path.path_table.size(); ++i){
+
+        // std::cout << temp_path_node.path_table[i].getParameters().forward_timer_default << " " << temp_path.path_table[i].getParameters().forward_timer_default << " ";
+
         if (temp_path_node.path_table[i].getParameters().forward_timer_default !=
-              m_path_table.path_table[i].getParameters().forward_timer_default){
-            std::cout << "tmp_path doesnt equal tmp_path_node" << std::endl;
-            m_path_table.path_table[i].setForwardTimerDefault(
+            temp_path.path_table[i].getParameters().forward_timer_default){
+            std::cout << "tmp_path doesnt equal tmp_path_node 1" << std::endl;
+            temp_path.path_table[i].setForwardTimerDefault(
                 temp_path_node.path_table[i].getParameters().forward_timer_default);
             if (temp_path_node.path_table[i].getParameters().path_state_index == Idle){
-                m_path_table.path_table[i].setForwardTimerCurrent(
-                    m_path_table.path_table[i].getParameters().forward_timer_default);
+                temp_path.path_table[i].setForwardTimerCurrent(
+                    temp_path.path_table[i].getParameters().forward_timer_default);
             }
         }
-        if(temp_path_node.path_table[i].getParameters().backward_timer_default !=
+        if(temp_path.path_table[i].getParameters().backward_timer_default !=
             m_path_table.path_table[i].getParameters().backward_timer_default){
+            std::cout << "tmp_path doesnt equal tmp_path_node 2" << std::endl;
             m_path_table.path_table[i].setBackwardTimerDefault(
-                temp_path_node.path_table[i].getParameters().backward_timer_default);
-            if (temp_path_node.path_table[i].getParameters().path_state_index == Idle){
+                temp_path.path_table[i].getParameters().backward_timer_default);
+            if (temp_path.path_table[i].getParameters().path_state_index == Idle){
                 m_path_table.path_table[i].setBackwardTimerCurrent(
                     m_path_table.path_table[i].getParameters().backward_timer_default);
             }
         }
     }
-
-    //    for i=1:length(ind)
-    //        // update the value
-    //       m_path_table{ind(i),9}=temp_path_node{ind(i),9};
-    //       // if the path is still in idle state, also update the current
-    //       // value
-    //       if temp_path_node{ind(i),2}==1
-    //           m_path_table{ind(i),8}=m_path_table{ind(i),9};
-    //       end
-    //    end
-       // find changes in the default retrograde conduction of the path table
-    //    ind=find(cell2mat(temp_path_node(:,11))~=cell2mat(m_path_table(:,11)));
-    //    for i=1:length(ind)
-    //       m_path_table{ind(i),11}=temp_path_node{ind(i),11};
-    //       if temp_path_node{ind(i),2}==1
-    //           m_path_table{ind(i),10}=m_path_table{ind(i),11};
-    //       end
-    //    end
-    //    path_table=temp_path;  // on finish, this will be redundant
+    // std::cout << std::endl;
+    m_path_table = temp_path;
+    // std::cout << temp_node.node_table[0].getParameters().node_state_index << std::endl;
+    // for (int j = 0; j < temp_node.node_table.size(); ++j){
+    //     std::cout << temp_node.node_table[j].getParameters().activation << " ";
+    // }
+    // std::cout << std::endl;
     return;
 }

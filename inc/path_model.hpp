@@ -15,7 +15,8 @@ public:
         const std::vector<float> &path_float_parameters
     );
     // ~Path();
-    void path_automaton(NodeTable& NT);
+    // void path_automaton(NodeTable& NT);
+    std::pair<bool, bool> path_automaton(NodeTable& NT);
 
     // Getter methods
     const path_parameters& getParameters() const { return _path_para; }
