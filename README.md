@@ -41,6 +41,8 @@ The components of the cardiac action potential cycle, including the periods of r
 ### Requirements
 - GCC
 - CMake
+- python3 (required only if you want to generate .hpp files from .mat files)
+    - scipy
 
 ### Bash commands
 from the root directory of the project, run the following commands:
@@ -50,6 +52,12 @@ cmake -Bbuild -G "MinGW Makefiles"
 cmake --build build --config Debug --target all -j 10 --
 build\MyHeart.exe                                       
 ```
+
+### Code generation (optional)
+```python
+python3 gen.py EP_AVNRT.mat ./inc/data.hpp
+```
+
 ## UI
 The current stage of the project is to build a UI for the heart model. The UI will be built using Qt/QML. The UI will be used to visualize the heart model and the action potential cycle.
 ![alt text](assets/ui/basic_ui.png)
