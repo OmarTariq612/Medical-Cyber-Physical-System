@@ -61,27 +61,6 @@ void Heart::heart_automaton()
 //            backward_timer_current, backward_timer_default, path_length,
 //            path_slope}
 
-/*
-    in the original NT_editable_copy state we:
-    1. get node activation signals
-    2. get node state index
-    3. reset TERP_current to TERP_default
-
-
-    m_node_table represents the updated node table which is the actual updated nodes
-    NT_editable_copy is a local copy of the node table editable by the node automaton
-    
-    path_table is the original copy of the path table that we don't want to change
-    temp_path is the updated path table which is the actual updated paths
-    
-    
-    path_table is just used to get the entry and exit node indexes
-
-    temp_path is updated by the path automaton
-    temp_path_node is updated by the node automaton
-    */
-
-    // local temp node & path table
 
     NodeTable temp_node = m_node_table;
     PathTable temp_path = m_path_table;
