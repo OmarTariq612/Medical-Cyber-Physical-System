@@ -77,13 +77,14 @@ std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
   switch (_path_para.path_state_index) {
     case Idle:  // Idle
       // if activation coming from entry node
-      if (entry_node.getParameters().activation == true)
+      if (entry_node.getParameters().activation == true) {
         // Antegrade conduction
         _path_para.path_state_index = Antegrade_conduction;
       // if activation coming from exit node
-      else if (exit_node.getParameters().activation == true)
+      } else if (exit_node.getParameters().activation == true) {
         // Retrograde conduction
         _path_para.path_state_index = Retrograde;
+      }
       break;
     case Antegrade_conduction:  // Antegrade conduction
       // if activation coming from exit node
@@ -98,8 +99,9 @@ std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
           temp_node2_activation = true;
           // go to conflict state
           _path_para.path_state_index = Conflict;
-        } else  // timer
+        } else {  // timer
           _path_para.forward_timer_current--;
+        }
       }
       break;
     case Retrograde:  // Retro
@@ -116,8 +118,9 @@ std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
           temp_node1_activation = true;
           // change state to conflict
           _path_para.path_state_index = Conflict;
-        } else  // timer
+        } else {  // timer
           _path_para.backward_timer_current--;
+        }
       }
       break;
     case Conflict:  // Conflict

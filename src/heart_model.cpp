@@ -51,8 +51,9 @@ void Heart::heart_automaton() {
     if (node_table.node_table[entry_index].getParameters().node_state_index !=
         ERP) {
       temp_act[entry_index] = temp_act[entry_index] || node_act_1;
-      if (node_act_1 == true)
+      if (node_act_1 == true) {
         temp_node.node_table[entry_index].setIndex_of_path_activate_the_node(i);
+      }
     } else {
       temp_act[entry_index] = false;
       node_table.node_table[entry_index].setTERP_current(
@@ -62,8 +63,9 @@ void Heart::heart_automaton() {
     if (node_table.node_table[exit_index].getParameters().node_state_index !=
         ERP) {
       temp_act[exit_index] = temp_act[exit_index] || node_act_2;
-      if (node_act_2 == true)
+      if (node_act_2 == true) {
         temp_node.node_table[exit_index].setIndex_of_path_activate_the_node(i);
+      }
     } else {
       temp_act[exit_index] = false;
       node_table.node_table[exit_index].setTERP_current(
@@ -71,8 +73,9 @@ void Heart::heart_automaton() {
     }
   }
   // update the parameters to the member variable m_node_table
-  for (int i = 0; i < m_node_table.node_table.size(); ++i)
+  for (int i = 0; i < m_node_table.node_table.size(); ++i) {
     temp_node.node_table[i].setActivation(temp_act[i]);
+  }
   m_node_table = temp_node;
 
   // update the parameters to the member variable m_path_table
