@@ -92,6 +92,12 @@ python3 gen.py EP_AVNRT.mat ./inc/data.hpp
 - [Dr Waheed Essam](https://www.facebook.com/waheed.essam.52)
 - [The contributors](https://github.com/abdoei/Medical-Cyber-Physical-System/graphs/contributors)
 
+    <a href="https://github.com/abdoei/Medical-Cyber-Physical-System/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=abdoei/Medical-Cyber-Physical-System" />
+    </a>
+
+    Images made with [contrib.rocks](https://contrib.rocks).
+
 ## TODOs (Probably will not DO them)
 - [ ] Remove the values copied in the heart_automaton() and rely on the pass-by-reference
 - [ ] Add features for the GUI
