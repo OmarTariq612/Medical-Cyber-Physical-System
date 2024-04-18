@@ -67,7 +67,6 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 ### Requirements
 - GCC
 - CMake
-
 - python3 (required only if you want to generate .hpp files from .mat files)
     - scipy
 - Qt/QML (C++/QML)
@@ -86,6 +85,12 @@ build\MyHeart.exe
 ```python
 python3 gen.py EP_AVNRT.mat ./inc/data.hpp
 ```
+
+## Credits
+- [Mlab-upenn team](vhttps://github.com/mlab-upenn)
+- [Dr Gehad AlKady](https://www.linkedin.com/in/gehad-alkady-2baa0539)
+- [Dr Waheed Essam](https://www.facebook.com/waheed.essam.52)
+- [The contributors](https://github.com/abdoei/Medical-Cyber-Physical-System/graphs/contributors)
 
 ## TODOs (Probably will not DO them)
 - [ ] Remove the values copied in the heart_automaton() and rely on the pass-by-reference
