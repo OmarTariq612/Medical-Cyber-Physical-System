@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "GLOBAL_ENUMS.hpp"
-#include "data.hpp"
+#include "ep_avnrt_data_gen.hpp"
 #include "node_model.hpp"
 #include "path_model.hpp"
 
@@ -13,7 +13,7 @@ class Heart {
  private:
   Heart(const std::vector<std::string> &h_node_names,
         const std::vector<std::vector<int>> &h_node_int_parameters,
-        const std::vector<node_position> &h_node_positions,
+        const std::vector<position> &h_node_positions,
         const std::vector<std::string> &h_path_names,
         const std::vector<std::vector<int>> &h_path_integer_parameters,
         const std::vector<std::vector<float>> &h_path_float_parameters);

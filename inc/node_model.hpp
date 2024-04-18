@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "GLOBAL_ENUMS.hpp"
-#include "data.hpp"
+#include "ep_avnrt_data_gen.hpp"
 class PathTable;  // Forward declaration of PathTable to avoid circular
                   // dependency
 
@@ -17,7 +17,7 @@ class Node {
   Node(const std::string &node_name,
        const std::vector<int> &node_integer_parameters,
        const std::vector<path_terminal_pair> &path_terminal_pair,
-       const node_position &node_pos);
+       const position &node_pos);
   // ~Node();
   void node_automaton(PathTable &PT);
 
@@ -63,7 +63,7 @@ class Node {
       const std::vector<path_terminal_pair> &connected_paths) {
     _node_para.connected_paths = connected_paths;
   }
-  void setNodePos(const node_position &node_pos) {
+  void setNodePos(const position &node_pos) {
     _node_para.node_pos = node_pos;
   }
 
@@ -76,11 +76,10 @@ class NodeTable {
  public:
   NodeTable(const std::vector<std::string> &node_names_,
             const std::vector<std::vector<int>> &node_int_parameters_,
-            const std::vector<node_position> &node_positions_,
+            const std::vector<position> &node_positions_,
             const PathTable &PathTable);
   // ~NodeTable();
   std::vector<Node> node_table;
 };
 
-
-#endif // _NODE_MODEL_HPP
+#endif  // _NODE_MODEL_HPP

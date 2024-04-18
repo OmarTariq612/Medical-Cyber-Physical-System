@@ -1,6 +1,7 @@
 #ifndef _PATH_MODEL_CPP
 #define _PATH_MODEL_CPP
 #include "../inc/path_model.hpp"
+
 #include "../inc/node_model.hpp"
 
 // Constructor
@@ -49,7 +50,7 @@ PathTable::PathTable(
   // used node_count instead of using the node_table.size() because the
   // node_table is not initialized yet and it will go into a cyclic dependency
   // problem
-  int node_count = Data.node_names.size();
+  int node_count = Ep_avnrtData.node_names.size();
   for (int node_idx = 0; node_idx < node_count; ++node_idx) {
     path_terminal_pairs_per_point_list.push_back(
         node_idx_paths_terminals_umap[node_idx]);
@@ -80,7 +81,7 @@ std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
       if (entry_node.getParameters().activation == true) {
         // Antegrade conduction
         _path_para.path_state_index = Antegrade_conduction;
-      // if activation coming from exit node
+        // if activation coming from exit node
       } else if (exit_node.getParameters().activation == true) {
         // Retrograde conduction
         _path_para.path_state_index = Retrograde;
@@ -165,5 +166,4 @@ std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
   return {temp_node1_activation, temp_node2_activation};
 }
 
-
-#endif // _PATH_MODEL_CPP
+#endif  // _PATH_MODEL_CPP

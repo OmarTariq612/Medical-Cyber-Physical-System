@@ -1,0 +1,5 @@
+# for more info: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+UseTab: false
+IndentWidth: 2
+BasedOnStyle: Google

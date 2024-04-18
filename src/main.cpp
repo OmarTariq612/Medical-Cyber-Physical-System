@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 using std::vector, std::string, std::pair;
-#include "../inc/data.hpp"
+#include "../inc/ep_avnrt_data_gen.hpp"
 #include "../inc/heart_model.hpp"
 
 int main(int argc, char *argv[]) {
@@ -24,16 +24,16 @@ int main(int argc, char *argv[]) {
       },
       Qt::QueuedConnection);
   engine.load(url);
-/// QT setup code ends here ///
+  /// QT setup code ends here ///
 
   Heart *heart_model = Heart::getInstance();
   QString color_opt_node[] = {"lime", "red", "yellow"};
   QString color_opt_path[] = {"blue", "lime", "yellow", "black", "red"};
 
   QVariantList nodeList;
-  for (int i = 0; i < Data.node_names.size(); ++i)
-    nodeList.emplace_back(QVariantMap{{"x", Data.node_positions[i].x},
-                                      {"y", Data.node_positions[i].y},
+  for (int i = 0; i < Ep_avnrtData.node_names.size(); ++i)
+    nodeList.emplace_back(QVariantMap{{"x", Ep_avnrtData.node_positions[i].x},
+                                      {"y", Ep_avnrtData.node_positions[i].y},
                                       {"c", "yellow"}});
 
   QVariantList pathList;

@@ -67,9 +67,9 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 ### Requirements
 - GCC
 - CMake
+- Qt/QML (C++/QML)
 - python3 (required only if you want to generate .hpp files from .mat files)
     - scipy
-- Qt/QML (C++/QML)
 
 
 ### Bash commands
@@ -83,7 +83,7 @@ build\MyHeart.exe
 
 ### Code generation (optional)
 ```python
-python3 gen.py EP_AVNRT.mat ./inc/data.hpp
+python3 case_studies/gen.py ./inc
 ```
 
 ## Credits

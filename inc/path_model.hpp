@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "GLOBAL_ENUMS.hpp"
-#include "data.hpp"
+#include "ep_avnrt_data_gen.hpp"
 class NodeTable;  // Forward declaration of NodeTable to avoid circular
                   // dependency
 
@@ -77,8 +77,8 @@ class PathTable {
   // ~PathTable();
   std::vector<std::vector<path_terminal_pair>>
       path_terminal_pairs_per_point_list;  // TODO(abdoei): make this private
-  std::vector<Path> path_table;  // TODO(abdoei): prevent direct access to this variable
+  std::vector<Path>
+      path_table;  // TODO(abdoei): prevent direct access to this variable
 };
 
-
-#endif // _PATH_MODEL_HPP
+#endif  // _PATH_MODEL_HPP
