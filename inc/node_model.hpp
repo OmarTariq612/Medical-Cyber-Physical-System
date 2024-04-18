@@ -82,4 +82,5 @@ class NodeTable {
   std::vector<Node> node_table;
 };
 
-#endif  // _NODE_MODEL_HPP
+
+#endif // _NODE_MODEL_HPP

@@ -67,7 +67,11 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 ### Requirements
 - GCC
 - CMake
+
+- python3 (required only if you want to generate .hpp files from .mat files)
+    - scipy
 - Qt/QML (C++/QML)
+
 
 ### Bash commands
 You can use CMake vs code extension or from the root directory of the project, run the following commands:
@@ -76,6 +80,11 @@ mkdir build
 cmake -Bbuild -G "MinGW Makefiles"
 cmake --build build --config Debug --target all -j 10 --
 build\MyHeart.exe                                       
+```
+
+### Code generation (optional)
+```python
+python3 gen.py EP_AVNRT.mat ./inc/data.hpp
 ```
 
 ## TODOs (Probably will not DO them)

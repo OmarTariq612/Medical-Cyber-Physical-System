@@ -165,4 +165,5 @@ std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
   return {temp_node1_activation, temp_node2_activation};
 }
 
-#endif  // _PATH_MODEL_CPP
+
+#endif // _PATH_MODEL_CPP

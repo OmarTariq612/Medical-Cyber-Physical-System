@@ -79,4 +79,6 @@ class PathTable {
       path_terminal_pairs_per_point_list;  // TODO(abdoei): make this private
   std::vector<Path> path_table;  // TODO(abdoei): prevent direct access to this variable
 };
-#endif  // _PATH_MODEL_HPP
+
+
+#endif // _PATH_MODEL_HPP

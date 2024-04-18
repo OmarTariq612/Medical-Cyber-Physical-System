@@ -93,4 +93,4 @@ struct path_parameters {
   float path_slope;              // The slope of the path
 };
 
-#endif  // _GLOBAL_ENUMS_HPP
+#endif // _GLOBAL_ENUMS_HPP
