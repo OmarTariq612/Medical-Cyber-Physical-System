@@ -82,7 +82,6 @@ void Heart::heart_automaton() {
   for (int i = 0; i < temp_path.path_table.size(); ++i) {
     if (temp_path_node.path_table[i].getParameters().forward_timer_default !=
         temp_path.path_table[i].getParameters().forward_timer_default) {
-      std::cout << "tmp_path doesnt equal tmp_path_node 1" << std::endl;
       temp_path.path_table[i].setForwardTimerDefault(
           temp_path_node.path_table[i].getParameters().forward_timer_default);
       if (temp_path_node.path_table[i].getParameters().path_state_index ==
@@ -93,7 +92,6 @@ void Heart::heart_automaton() {
     }
     if (temp_path.path_table[i].getParameters().backward_timer_default !=
         m_path_table.path_table[i].getParameters().backward_timer_default) {
-      std::cout << "tmp_path doesnt equal tmp_path_node 2" << std::endl;
       m_path_table.path_table[i].setBackwardTimerDefault(
           temp_path.path_table[i].getParameters().backward_timer_default);
       if (temp_path.path_table[i].getParameters().path_state_index == Idle) {
