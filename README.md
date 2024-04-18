@@ -1,7 +1,7 @@
 # Medical-Cyber-Physical-System
 ## ⚠️ Warning
 
-**Important:** This repository contains medical jargons and electrophysiological terms. Please ensure you have the necessary knowledge and expertise before proceeding.
+**Important:** This repository contains medical jargon and electrophysiological terms. Please ensure you have the necessary knowledge and expertise before proceeding.
 
 <!-- Rest of the README content goes here -->
 
@@ -25,7 +25,7 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
     
     **The proper level of abstraction: Coverage vs. Expressiveness**
     To be used in different stages during the development process, the structure and parameters of our heart model need to be adjusted to balance between Coverage vs. Expressiveness.
-    Intuitively, the more complex the model is, there are more constraints on its behaviors, thus limiting its coverage. On the other hand, the added complexity allows us to capture more detailed mechanisms of the heart, allowing us to precisely model a specific heart condition. So instead of developing a single heart model, we developed a series of heart models at different abstraction levels. With the Counter-Example-Guided Abstraction & Refinement (CEGAR) framework, we can choose the proper level of heart model abstraction during verification thus balancing coverage and expressiveness.
+    Intuitively, the more complex the model is, there are more constraints on its behaviours, thus limiting its coverage. On the other hand, the added complexity allows us to capture more detailed mechanisms of the heart, allowing us to precisely model a specific heart condition. So instead of developing a single heart model, we developed a series of heart models at different abstraction levels. With the Counter-Example-Guided Abstraction & Refinement (CEGAR) framework, we can choose the proper level of heart model abstraction during verification thus balancing coverage and expressiveness.
 
 
 
@@ -85,6 +85,18 @@ build\MyHeart.exe
 ```python
 python3 case_studies/gen.py ./inc
 ```
+
+## Credits
+- [Mlab-upenn team](https://github.com/mlab-upenn)
+- [Dr Gehad AlKady](https://www.linkedin.com/in/gehad-alkady-2baa0539)
+- [Dr Waheed Essam](https://www.facebook.com/waheed.essam.52)
+- [The contributors](https://github.com/abdoei/Medical-Cyber-Physical-System/graphs/contributors)
+
+    <a href="https://github.com/abdoei/Medical-Cyber-Physical-System/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=abdoei/Medical-Cyber-Physical-System" />
+    </a>
+
+    Images made with [contrib.rocks](https://contrib.rocks).
 
 ## TODOs (Probably will not DO them)
 - [ ] Remove the values copied in the heart_automaton() and rely on the pass-by-reference
