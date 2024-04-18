@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "GLOBAL_ENUMS.hpp"
-#include "data.hpp"
+#include "ep_avnrt_data_gen.hpp"
 class PathTable;  // Forward declaration of PathTable to avoid circular
                   // dependency
 
