@@ -9,7 +9,9 @@
 
 ## Heart Model
 A Patient-specific heart model simulation from [mlab-upenn](https://github.com/mlab-upenn) research group
-<image src="assets/img/VHM.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+<p align="center">
+  <img src="assets/img/VHM.gif">
+</p>
 
 ## Chosen Model
 [Mlab-Penn team says](https://mlab-upenn.github.io/medcps/heart_modeling_for_pacemakers.html#collapse4): 
@@ -28,7 +30,7 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 
 
 <p>
-    <img src="assets/img/N1.png" width="400" style="float:right; margin-right: 10px;margin-left: 10px;">
+    <img align="right" src="assets/img/N1.png" width="400" style="margin-right: 10px;margin-left: 10px;">
     <h4>Abstract conduction delay with paths</h4>
     <p>
         In this abstraction, we replace the *cond* state of N0 with path automata. The heart model H0 can be replaced by 
@@ -55,7 +57,7 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 
 ## Node States
 <p>
-    <img src="assets/img/basic.png" width="400" style="float:right; margin-right: 10px;margin-left: 10px;">
+    <img align="right" src="assets/img/basic.png" width="400" style="margin-right: 10px;margin-left: 10px;">
     The components of the cardiac action potential cycle, include the periods of rest, conduction, ERP (Effective Refractory Period), RRP (Relative Refractory Period), and the rest (diastolic) period.
 </p>
 <br><br>
