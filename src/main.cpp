@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
       },
       Qt::QueuedConnection);
   engine.load(url);
-/// QT setup code ends here ///
+  /// QT setup code ends here ///
 
   Heart *heart_model = Heart::getInstance();
   QString color_opt_node[] = {"lime", "red", "yellow"};

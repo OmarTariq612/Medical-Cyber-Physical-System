@@ -1,6 +1,7 @@
 #ifndef _NODE_MODEL_CPP
 #define _NODE_MODEL_CPP
 #include "../inc/node_model.hpp"
+
 #include "../inc/path_model.hpp"
 
 // Create a random number generator
@@ -12,7 +13,7 @@ std::uniform_real_distribution<double> _rand(0.0, 1.0);
 Node::Node(const std::string &node_name_,
            const std::vector<int> &node_integer_parameters,
            const std::vector<path_terminal_pair> &path_terminal_pair,
-           const node_position &node_pos)
+           const position &node_pos)
     : _node_para{
           node_name_,  // node_name
           static_cast<node_state_index_enum>(
@@ -35,7 +36,7 @@ Node::Node(const std::string &node_name_,
 
 NodeTable::NodeTable(const std::vector<std::string> &node_names_,
                      const std::vector<std::vector<int>> &node_int_parameters_,
-                     const std::vector<node_position> &node_positions_,
+                     const std::vector<position> &node_positions_,
                      const PathTable &PathTable) {
   for (int i = 0; i < node_names_.size(); ++i) {
     std::vector<path_terminal_pair> path_terminal_pair1 =

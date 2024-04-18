@@ -4,7 +4,7 @@
 #include <vector>
 
 /* Node */
-struct node_position {
+struct position {
   float x, y;
 };
 
@@ -63,7 +63,7 @@ struct node_parameters {
                        // they have
   std::vector<path_terminal_pair>
       connected_paths;     // The paths that are connected to the node
-  node_position node_pos;  // The position of the node in the grid
+  position node_pos;  // The position of the node in the grid
 };
 
 /* Path */
@@ -93,4 +93,4 @@ struct path_parameters {
   float path_slope;              // The slope of the path
 };
 
-#endif // _GLOBAL_ENUMS_HPP
+#endif  // _GLOBAL_ENUMS_HPP
