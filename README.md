@@ -62,6 +62,13 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 </p>
 <br><br>
 
+## [Cases](https://mlab-upenn.github.io/medcps/downloads.html#case) [patient-specific]
+1) [09/04/2011: Atrioventricular Nodal Reentry Tachycardia (AVNRT)](case_studies/EP_AVNRT.mat)
+2) [13/04/2011: Atrial Flutter](case_studies/AFlutter.mat)
+3) [13/04/2011: Wenckebach-type A-V nodal response](case_studies/Wenckebach.mat)
+
+This can be chosen by setting -DCASE=1,2,3 in the CMakeLists.txt file or on the command line when running CMake.
+
 
 ## Building instructions
 ### Requirements
@@ -74,12 +81,21 @@ A Patient-specific heart model simulation from [mlab-upenn](https://github.com/m
 
 ### Bash commands
 You can use CMake vs code extension or from the root directory of the project, run the following commands:
+#### Windows
 ```bash
 mkdir build
 cmake -Bbuild -G "MinGW Makefiles"
 cmake --build build --config Debug --target all -j 10 --
 build\MyHeart.exe                                       
 ```
+
+#### Linux
+```bash
+mkdir build
+cmake --build build --config Debug --target all --
+```
+Then the bin file will be in the bin directory.
+
 
 ### Code generation (optional)
 ```python
