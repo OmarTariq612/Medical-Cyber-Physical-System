@@ -18,7 +18,7 @@ set(INC inc/node_model.hpp inc/path_model.hpp inc/heart_model.hpp)
 set(PROJECT_SOURCES assets/ui/qml.qrc ${SRC} ${INC})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 include_directories(INC)
-
+add_definitions(-DCASE=1)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(MyHeart

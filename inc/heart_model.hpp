@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "GLOBAL_ENUMS.hpp"
-#include "ep_avnrt_data_gen.hpp"
+#include "data_gen_config.hpp"
 #include "node_model.hpp"
 #include "path_model.hpp"
 

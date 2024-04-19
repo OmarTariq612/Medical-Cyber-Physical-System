@@ -5,8 +5,11 @@
 #include <cmath>
 #include <iostream>
 using std::vector, std::string, std::pair;
-#include "../inc/ep_avnrt_data_gen.hpp"
 #include "../inc/heart_model.hpp"
+// 1: Aflutter, 2: EP_AVNRT, 3: Wenckbach NOTE: this is
+// overwritten by CMakeLists.txt at line 21 in this commit
+#define CASE 1
+#include "../inc/data_gen_config.hpp"
 
 int main(int argc, char *argv[]) {
 /// QT setup code starts here ///
@@ -31,35 +34,68 @@ int main(int argc, char *argv[]) {
   QString color_opt_path[] = {"blue", "lime", "yellow", "black", "red"};
 
   QVariantList nodeList;
-  for (int i = 0; i < Ep_avnrtData.node_names.size(); ++i)
-    nodeList.emplace_back(QVariantMap{{"x", Ep_avnrtData.node_positions[i].x},
-                                      {"y", Ep_avnrtData.node_positions[i].y},
+  for (int i = 0; i < Data.node_names.size(); ++i) {
+    nodeList.emplace_back(QVariantMap{{"x", Data.node_positions[i].x},
+                                      {"y", Data.node_positions[i].y},
                                       {"c", "yellow"}});
+  }
 
   QVariantList pathList;
   for (int i = 0; i < Data.path_names.size(); ++i) {
-    float degree =
-        180.0 / 3.14 * std::atan2(Data.path_float_parameters[i][7], -1);
-    float ent_x = Data.node_positions[Data.path_int_parameters[i][1] - 1].x;
-    float ent_y = Data.node_positions[Data.path_int_parameters[i][1] - 1].y;
-    float out_x = Data.node_positions[Data.path_int_parameters[i][2] - 1].x;
-    float out_y = Data.node_positions[Data.path_int_parameters[i][2] - 1].y;
-    if (ent_x <= out_x) {
-      ent_x = out_x;
-      ent_y = out_y;
+    const float ent_x =
+        Data.node_positions[Data.path_int_parameters[i][1] - 1].x;
+    const float ent_y =
+        Data.node_positions[Data.path_int_parameters[i][1] - 1].y;
+    const float out_x =
+        Data.node_positions[Data.path_int_parameters[i][2] - 1].x;
+    const float out_y =
+        Data.node_positions[Data.path_int_parameters[i][2] - 1].y;
+    float degree = 180 / 3.14 * std::atan2(out_y - ent_y, out_x - ent_x);
+    // Geometry of the path as the original data for the image and coordiates
+    // are flipped around the x-axis
+    if (ent_x > out_x) {
+      if (ent_y > out_y) {
+        degree = std::abs(degree);
+      } else {
+        degree = -std::abs(degree);
+      }
+    } else {
+      if (ent_y > out_y) {
+        degree = std::abs(degree);
+      } else {
+        degree = 360 - std::abs(degree);
+      }
     }
+    const float len = std::sqrt(std::pow(out_x - ent_x, 2) +
+                                std::pow(out_y - ent_y, 2));
     pathList.emplace_back(QVariantMap{{"x", ent_x},
                                       {"y", ent_y},
                                       {"c", "blue"},
-                                      {"l", Data.path_float_parameters[i][6]},
+                                      {"l", len},
                                       {"d", degree}});
   }
 
   QObject *rootObject = engine.rootObjects().first();
-  if (rootObject) {
+  if (rootObject != nullptr) {
     QTimer *timer = new QTimer(rootObject);
-    int delay = 10;
+    const int delay = 10;
     int index = 0;
+
+    // set pathsNames and nodesNames variables
+    QVariantList paths_nodes_names;
+    for (int i = 0; i < Data.path_names.size(); ++i) {
+      paths_nodes_names.emplace_back(
+          QString::fromStdString(Data.path_names[i]));
+    }
+    rootObject->setProperty("pathsNames",
+                            QVariant::fromValue(paths_nodes_names));
+    paths_nodes_names.clear();
+    for (int i = 0; i < Data.node_names.size(); ++i) {
+      paths_nodes_names.emplace_back(
+          QString::fromStdString(Data.node_names[i]));
+    }
+    rootObject->setProperty("nodesNames",
+                            QVariant::fromValue(paths_nodes_names));
 
     QObject::connect(timer, &QTimer::timeout, rootObject, [&] {
       if (index < 10'000'000)  // Data.node_positions.size())
@@ -81,12 +117,11 @@ int main(int argc, char *argv[]) {
              ++i) {
           const QVariantMap &originalPath = pathList.at(i).toMap();
           QVariantMap modifiedElement = originalPath;
-          int psi = heart_model->getPathTable()
-                        .path_table[i]
-                        .getParameters()
-                        .path_state_index -
-                    1;
-          // std::cout << psi << std::endl;
+          const int psi = heart_model->getPathTable()
+                              .path_table[i]
+                              .getParameters()
+                              .path_state_index -
+                          1;
           modifiedElement["c"] = color_opt_path[psi];
           pathList.replace(i, modifiedElement);
         }
@@ -96,7 +131,7 @@ int main(int argc, char *argv[]) {
       } else {
         // Stop the timer when all updates are done
         timer->stop();
-        std::cout << "Else" << std::endl;
+        std::cout << "END OF 100'000 cycle" << std::endl;
       }
     });
     // Start the timer

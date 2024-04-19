@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
 
 
 Window {
@@ -12,6 +13,9 @@ Window {
     minimumWidth: 582
     maximumWidth: 582
     property int timerLabel: 0
+
+    property var pathsNames: []
+    property var nodesNames: []
     // Define a vector of x, y values
     property var pointData: [
             {"x":135.5, "y":295.5, "c":"red"},
@@ -115,6 +119,13 @@ Window {
                 y: root.height - modelData.y - 54 // Adjust position to center the point
                 z:2
                 radius: 6
+                ToolTip.visible: ma.containsMouse
+                MouseArea {
+                    id: ma
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+                ToolTip.text: nodesNames[index]
             }
             model: pointData
         }
@@ -124,11 +135,18 @@ Window {
                 width: modelData.l
                 height: 4
                 color: modelData.c
-                x: modelData.x + 2
-                y: root.height - modelData.y - 46
+                x: modelData.x + 4
+                y: root.height - modelData.y - 50
                 z:1
                 radius: 3
                 transform: Rotation{origin.x:0; origin.y:0; angle:modelData.d}
+                ToolTip.visible: ma.containsMouse
+                MouseArea {
+                    id: ma
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+                ToolTip.text: pathsNames[index]
             }
             model: pathData
         }

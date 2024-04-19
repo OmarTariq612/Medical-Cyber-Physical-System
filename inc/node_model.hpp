@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "GLOBAL_ENUMS.hpp"
-#include "ep_avnrt_data_gen.hpp"
+#include "data_gen_config.hpp"
 class PathTable;  // Forward declaration of PathTable to avoid circular
                   // dependency
 
@@ -63,9 +63,7 @@ class Node {
       const std::vector<path_terminal_pair> &connected_paths) {
     _node_para.connected_paths = connected_paths;
   }
-  void setNodePos(const position &node_pos) {
-    _node_para.node_pos = node_pos;
-  }
+  void setNodePos(const position &node_pos) { _node_para.node_pos = node_pos; }
 
  private:
   node_parameters _node_para;

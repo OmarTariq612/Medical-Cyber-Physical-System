@@ -50,7 +50,7 @@ PathTable::PathTable(
   // used node_count instead of using the node_table.size() because the
   // node_table is not initialized yet and it will go into a cyclic dependency
   // problem
-  int node_count = Ep_avnrtData.node_names.size();
+  int node_count = Data.node_names.size();
   for (int node_idx = 0; node_idx < node_count; ++node_idx) {
     path_terminal_pairs_per_point_list.push_back(
         node_idx_paths_terminals_umap[node_idx]);

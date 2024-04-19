@@ -16,10 +16,9 @@ Heart *Heart::instance = nullptr;
 
 Heart *Heart::getInstance() {
   if (instance == nullptr) {
-    instance = new Heart(
-        Ep_avnrtData.node_names, Ep_avnrtData.node_int_parameters,
-        Ep_avnrtData.node_positions, Ep_avnrtData.path_names,
-        Ep_avnrtData.path_int_parameters, Ep_avnrtData.path_float_parameters);
+    instance = new Heart(Data.node_names, Data.node_int_parameters,
+                         Data.node_positions, Data.path_names,
+                         Data.path_int_parameters, Data.path_float_parameters);
   }
   return instance;
 }

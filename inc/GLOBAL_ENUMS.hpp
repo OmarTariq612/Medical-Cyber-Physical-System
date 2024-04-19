@@ -62,8 +62,8 @@ struct node_parameters {
   AVness_enum AVness;  // Is the node an Atrioventricular node related or not as
                        // they have
   std::vector<path_terminal_pair>
-      connected_paths;     // The paths that are connected to the node
-  position node_pos;  // The position of the node in the grid
+      connected_paths;  // The paths that are connected to the node
+  position node_pos;    // The position of the node in the grid
 };
 
 /* Path */
