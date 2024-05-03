@@ -27,6 +27,9 @@ Heart *Heart::getInstance() {
  * A function updates the parameters for nodes and paths in one time stamp
  */
 void Heart::heart_automaton() {
+  using node_state_index_enum::ERP;
+  using path_state_index_enum::Idle;
+
   NodeTable temp_node = m_node_table;
   PathTable temp_path = m_path_table;
   PathTable path_table = m_path_table;

@@ -52,6 +52,9 @@ NodeTable::NodeTable(const std::vector<std::string> &node_names_,
 
 // Method to simulate the node
 void Node::node_automaton(PathTable &PT) {
+  using enum node_state_index_enum;
+  using path_terminal_enum::entry;
+
   /*
   in the _node_para it changes:
       1. node_state_index         [2]
@@ -91,10 +94,10 @@ void Node::node_automaton(PathTable &PT) {
           const float original_forward_speed = path_parameters.forward_speed;
           const float original_backward_speed = path_parameters.backward_speed;
           const float original_path_length = path_parameters.path_length;
-          // if at __entry, only affect antegrade conduction; __exit for
+          // if at entry, only affect antegrade conduction; exit for
           // retrograde conduction
           if (_node_para.connected_paths[i].terminal ==
-              __entry) {  // TODO(abdoei): investigate the multiplication by 0
+              entry) {  // TODO(abdoei): investigate the multiplication by 0
             const float tmp_forward_timer_default =
                 std::round((1 + (_rand(generator) - 0.5) * 0) *
                            original_path_length / original_forward_speed);
@@ -135,10 +138,10 @@ void Node::node_automaton(PathTable &PT) {
               path_parameters.backward_speed;  // path_table{path_idx, 7}
           const float original_path_length =
               path_parameters.path_length;  // path_table{path_idx, 12}
-          // if at __entry, only affect antegrade conduction; __exit for
+          // if at entry, only affect antegrade conduction; exit for
           // retrograde conduction
           if (_node_para.connected_paths[idx].terminal ==
-              __entry) {  // TODO: investigate the multiplication by 0
+              entry) {  // TODO: investigate the multiplication by 0
             const float tmp_forward_timer_default = std::round(
                 (1 + (_rand(generator) - 0.5) * 0) * original_path_length /
                 original_forward_speed * (_node_para.AVness + 1));
@@ -196,7 +199,7 @@ void Node::node_automaton(PathTable &PT) {
           const float original_forward_speed = path_parameters.forward_speed;
           const float original_backward_speed = path_parameters.backward_speed;
           if (_node_para.AVness == AV) {
-            if (_node_para.connected_paths[idx].terminal == __entry) {
+            if (_node_para.connected_paths[idx].terminal == entry) {
               float tmp_forward_timer_default = std::round(
                   (1 + (_rand(generator) - 0.5) * 0) * original_path_length /
                   original_forward_speed * (1 + ratio * 3));
@@ -210,7 +213,7 @@ void Node::node_automaton(PathTable &PT) {
                   tmp_backward_timer_default);
             }
           } else {
-            if (_node_para.connected_paths[idx].terminal == __entry) {
+            if (_node_para.connected_paths[idx].terminal == entry) {
               float tmp_forward_timer_default = std::round(
                   (1 + (_rand(generator) - 0.5) * 0) * original_path_length /
                   original_forward_speed * (1 + ratio * ratio * 3));

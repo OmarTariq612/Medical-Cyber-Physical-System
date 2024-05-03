@@ -8,16 +8,10 @@ struct position {
   float x, y;
 };
 
-enum node_state_index_enum { rest = 1, ERP = 2, RRP = 3 };
+enum class node_state_index_enum { rest = 1, ERP = 2, RRP = 3 };
 
 // The terminal of the path connected to the node
-enum path_terminal_enum {
-  __entry = 1,  // Then, this is named like this for consistency
-  __exit = 2  // Firstly, named like this because of the conflict with the exit
-              // keyword. The exit function is a standard function in C++ that
-              // is used to terminate a program. It is defined in the <cstdlib>
-              // header file.
-};
+enum class path_terminal_enum { entry = 1, exit = 2 };
 
 // a struct that has path_idx, terminal pair for each path connected to the node
 struct path_terminal_pair {
@@ -32,7 +26,7 @@ enum AVness_enum { AV = 1, non_AV = 2 };
 struct node_parameters {
   std::string node_name;
   node_state_index_enum node_state_index =
-      rest;  // 1 for rest, 2 for ERP, 3 for RRP
+      node_state_index_enum::rest;  // 1 for rest, 2 for ERP, 3 for RRP
   // The total refractory period is comprised of the (1) Rset, (2) Conduction,
   // (3) ERP, (4) RRP, and (5) Trest periods. Starting or Ending with a Rest
   // period.
@@ -67,7 +61,7 @@ struct node_parameters {
 };
 
 /* Path */
-enum path_state_index_enum {
+enum class path_state_index_enum {
   Idle = 1,
   Antegrade_conduction = 2,
   Retrograde = 3,

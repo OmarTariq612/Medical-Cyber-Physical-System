@@ -43,9 +43,9 @@ PathTable::PathTable(
     int entry_idx = path_table[path_idx].getParameters().entry_node_index;
     int exit_idx = path_table[path_idx].getParameters().exit_node_index;
     node_idx_paths_terminals_umap[entry_idx].push_back(
-        path_terminal_pair{path_idx, __entry});
+        path_terminal_pair{path_idx, path_terminal_enum::entry});
     node_idx_paths_terminals_umap[exit_idx].push_back(
-        path_terminal_pair{path_idx, __exit});
+        path_terminal_pair{path_idx, path_terminal_enum::exit});
   }
   // used node_count instead of using the node_table.size() because the
   // node_table is not initialized yet and it will go into a cyclic dependency
@@ -61,6 +61,8 @@ PathTable::PathTable(
  * This function updates the status of a single path
  */
 std::pair<bool, bool> Path::path_automaton(NodeTable &NT) {
+  using enum path_state_index_enum;
+
   /*
   in the _path_para it changes:
       1. path_state_index         [2]
