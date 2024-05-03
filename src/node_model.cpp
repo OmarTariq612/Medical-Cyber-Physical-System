@@ -38,12 +38,16 @@ NodeTable::NodeTable(const std::vector<std::string> &node_names_,
                      const std::vector<std::vector<int>> &node_int_parameters_,
                      const std::vector<position> &node_positions_,
                      const PathTable &PathTable) {
+  // the required size of node_table is already known
+  // preallocating.
+  node_table.reserve(node_names_.size());
+
   for (int i = 0; i < node_names_.size(); ++i) {
     std::vector<path_terminal_pair> path_terminal_pair1 =
         PathTable.path_terminal_pairs_per_point_list[i];
-    Node node1(node_names_[i], node_int_parameters_[i], path_terminal_pair1,
-               node_positions_[i]);
-    node_table.push_back(node1);
+
+    node_table.emplace_back(node_names_[i], node_int_parameters_[i],
+                            path_terminal_pair1, node_positions_[i]);
   }
 }
 

@@ -31,10 +31,13 @@ PathTable::PathTable(
     const std::vector<std::string> &path_names_,
     const std::vector<std::vector<int>> &path_integer_parameters_,
     const std::vector<std::vector<float>> &path_float_parameters_) {
+  // the required size of path_table is already known
+  // preallocating.
+  path_table.reserve(path_names_.size());
+
   for (int i = 0; i < path_names_.size(); ++i) {
-    Path path1(path_names_[i], path_integer_parameters_[i],
-               path_float_parameters_[i]);
-    path_table.push_back(path1);
+    path_table.emplace_back(path_names_[i], path_integer_parameters_[i],
+                            path_float_parameters_[i]);
   }
 
   std::unordered_map<int, std::vector<path_terminal_pair>>
@@ -51,6 +54,11 @@ PathTable::PathTable(
   // node_table is not initialized yet and it will go into a cyclic dependency
   // problem
   int node_count = Data.node_names.size();
+
+  // the required size of path_terminal_pairs_per_point_list is already known
+  // preallocating.
+  path_terminal_pairs_per_point_list.reserve(node_count);
+
   for (int node_idx = 0; node_idx < node_count; ++node_idx) {
     path_terminal_pairs_per_point_list.push_back(
         node_idx_paths_terminals_umap[node_idx]);
