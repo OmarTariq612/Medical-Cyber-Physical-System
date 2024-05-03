@@ -13,8 +13,7 @@ class Cursor:
     ):
         self.indent_level = ident_level
         self.print_fn = print_fn
-        self.use_spaces = use_spaces
-        self.num_of_spaces = num_of_spaces
+        self.tab = " " * num_of_spaces if use_spaces else "\t"
 
     def indent(self):
         self.indent_level += 1
@@ -26,14 +25,11 @@ class Cursor:
 
     def print(self, *args, **kwargs):
         for _ in range(0, self.indent_level):
-            self.print_fn(self.tab(), end="")
+            self.print_fn(self.tab, end="")
         self.print_fn(*args, **kwargs)
 
     def newline(self):
         self.print_fn()
-
-    def tab(self):
-        return " " * self.num_of_spaces if self.use_spaces else "\t"
 
     def __enter__(self) -> "Cursor":
         self.indent()
@@ -58,8 +54,13 @@ class Cursor:
     @contextmanager
     def guard(self, name: str):
         self.print(f"#ifndef {name}")
-        self.print(f"#define {name}\n")
+        self.print(f"#define {name}")
+        self.newline()
         self.comment("DONT EDIT THIS FILE. It is generated.")
+        self.newline()
+        self.print("#include <string>")
+        self.print("#include <vector>")
+        self.print('#include "GLOBAL_ENUMS.hpp"')
         self.newline()
         try:
             yield
@@ -270,7 +271,7 @@ def generate_pace_para(cursor: Cursor, pace_para):
 
     cursor.comment("matlab name: pace_para")
 
-    with cursor.vector("std::string", "pace_names", const=True):
+    with cursor.vector("std::string", "component_names", const=True):
         for i in range(0, len(pace_names), 9):
             pace_names_iteration = pace_names[i : i + 9]
             cursor.print(f"{', '.join(pace_names_iteration)},")

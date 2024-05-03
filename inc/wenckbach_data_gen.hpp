@@ -3,6 +3,11 @@
 
 /* DONT EDIT THIS FILE. It is generated. */
 
+#include <string>
+#include <vector>
+
+#include "GLOBAL_ENUMS.hpp"
+
 class {
  public:
   /* Nodes Data */
@@ -172,7 +177,7 @@ class {
   };
 
   /* matlab name: pace_para */
-  const std::vector<std::string> pace_names = {
+  const std::vector<std::string> component_names = {
       "LRI",
       "AVI",
       "ARP",
