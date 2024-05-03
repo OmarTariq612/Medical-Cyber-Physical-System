@@ -2,6 +2,8 @@
 #define _PATH_MODEL_CPP
 #include "../inc/path_model.hpp"
 
+#include <assert.h>
+
 #include "../inc/node_model.hpp"
 
 // Constructor
@@ -31,6 +33,9 @@ PathTable::PathTable(
     const std::vector<std::string> &path_names_,
     const std::vector<std::vector<int>> &path_integer_parameters_,
     const std::vector<std::vector<float>> &path_float_parameters_) {
+  assert(path_names_.size() == path_integer_parameters_.size());
+  assert(path_names_.size() == path_float_parameters_.size());
+
   // the required size of path_table is already known
   // preallocating.
   path_table.reserve(path_names_.size());

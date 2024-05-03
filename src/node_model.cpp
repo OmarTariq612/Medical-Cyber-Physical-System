@@ -1,6 +1,9 @@
 #ifndef _NODE_MODEL_CPP
 #define _NODE_MODEL_CPP
+
 #include "../inc/node_model.hpp"
+
+#include <assert.h>
 
 #include "../inc/path_model.hpp"
 
@@ -38,6 +41,9 @@ NodeTable::NodeTable(const std::vector<std::string> &node_names_,
                      const std::vector<std::vector<int>> &node_int_parameters_,
                      const std::vector<position> &node_positions_,
                      const PathTable &PathTable) {
+  assert(node_names_.size() == node_int_parameters_.size());
+  assert(node_names_.size() == node_positions_.size());
+
   // the required size of node_table is already known
   // preallocating.
   node_table.reserve(node_names_.size());
