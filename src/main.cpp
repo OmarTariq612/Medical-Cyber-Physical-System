@@ -66,13 +66,10 @@ int main(int argc, char *argv[]) {
         degree = 360 - std::abs(degree);
       }
     }
-    const float len = std::sqrt(std::pow(out_x - ent_x, 2) +
-                                std::pow(out_y - ent_y, 2));
-    pathList.emplace_back(QVariantMap{{"x", ent_x},
-                                      {"y", ent_y},
-                                      {"c", "blue"},
-                                      {"l", len},
-                                      {"d", degree}});
+    const float len =
+        std::sqrt(std::pow(out_x - ent_x, 2) + std::pow(out_y - ent_y, 2));
+    pathList.emplace_back(QVariantMap{
+        {"x", ent_x}, {"y", ent_y}, {"c", "blue"}, {"l", len}, {"d", degree}});
   }
 
   QObject *rootObject = engine.rootObjects().first();
@@ -106,23 +103,25 @@ int main(int argc, char *argv[]) {
              ++i) {
           const QVariantMap &originalNode = nodeList.at(i).toMap();
           QVariantMap modifiedElement = originalNode;
-          modifiedElement["c"] = color_opt_node[heart_model->getNodeTable()
-                                                    .node_table[i]
-                                                    .getParameters()
-                                                    .node_state_index -
-                                                1];
+          const int nsi =
+              static_cast<int>(heart_model
+                                   ->getNodeTable()  // nsi for node state index
+                                   .node_table[i]
+                                   .getParameters()
+                                   .node_state_index);
+          modifiedElement["c"] = color_opt_node[nsi - 1];
           nodeList.replace(i, modifiedElement);
         }
         for (int i = 0; i < heart_model->getPathTable().path_table.size();
              ++i) {
           const QVariantMap &originalPath = pathList.at(i).toMap();
           QVariantMap modifiedElement = originalPath;
-          const int psi = heart_model->getPathTable()
-                              .path_table[i]
-                              .getParameters()
-                              .path_state_index -
-                          1;
-          modifiedElement["c"] = color_opt_path[psi];
+
+          const int psi = static_cast<int>(heart_model->getPathTable()
+                                               .path_table[i]
+                                               .getParameters()
+                                               .path_state_index);
+          modifiedElement["c"] = color_opt_path[psi - 1];
           pathList.replace(i, modifiedElement);
         }
         rootObject->setProperty("pointData", QVariant::fromValue(nodeList));
